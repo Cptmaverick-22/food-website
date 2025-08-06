@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Foodie Express</title>
+  <link rel="stylesheet" href="Assets/style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">🍴 Foodie Express</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Menu</a>
+      <a href="#">Contact</a>
+      <a href="#" class="cart-icon" onclick="event.preventDefault(); toggleCartPopup();">
+        🛒 Cart: ₹<span id="nav-total">0</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Delicious Meals Delivered To You</h1>
+    <p>Fast delivery <span>|</span> Fresh food <span>|</span> Best prices</p>
+  </section>
+
+  <!-- Menu Grid -->
+  <main class="menu-grid">
+    <!-- Dynamically Repeatable Food Cards -->
+    <script>
+      const menuItems = [
+        { name: "Pizza", price: 199, img: "Pizza.jpg", veg: false },
+        { name: "Burger", price: 99, img: "Burger.jpg", veg: false },
+        { name: "Sandwich", price: 60, img: "Sandwich.jpg", veg: true },
+        { name: "Chicken Biriyani", price: 150, img: "Chicken-Biryani.jpg", veg: false },
+        { name: "Mutton Biriyani", price: 200, img: "Mutton-Biriyani.jpg", veg: false },
+        { name: "Veg Biriyani", price: 90, img: "Veg-Biryani.png", veg: true },
+        { name: "Dosa", price: 60, img: "Dosa.jpg", veg: true },
+        { name: "Idli", price: 30, img: "Idli.jpg", veg: true },
+        { name: "Chicken Fried Rice", price: 100, img: "Chicken-Fried-Rice.jpg", veg: false },
+        { name: "Egg Fried Rice", price: 80, img: "Egg-Fried-Rice.jpg", veg: false },
+        { name: "Chicken Manchurian", price: 70, img: "Chicken-Manchurian.png", veg: false }
+      ];
+
+      document.write(
+        menuItems.map(({ name, price, img, veg }) => `
+          <div class="card">
+            <img src="images/${img}" alt="${name}" />
+            <div class="card-content">
+              <h2><img src="images/${veg ? 'veg.png' : 'non-veg.svg'}" class="food-icon" alt="${veg ? 'Veg' : 'Non-Veg'}">${name}</h2>
+              <p>₹${price}</p>
+              <button onclick="addToCart('${name}', ${price})">Add to Cart</button>
+            </div>
+          </div>
+        `).join('')
+      );
+    </script>
+  </main>
+
+  <!-- Cart Popup -->
+  <div id="cart-popup" style="
+    display:none;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 320px;
+    max-width: 90vw;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    z-index: 1000;
+  ">
+    <button onclick="toggleCartPopup()" style="
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      border: none;
+      background: transparent;
+      font-size: 20px;
+      cursor: pointer;
+    ">✖</button>
+
+    <div id="cart-items" style="margin-top: 1.5rem;"></div>
+    <hr />
+    <p><strong>Total: ₹<span id="cart-total">0</span></strong></p>
+    <button onclick="checkout()">Checkout</button>
+  </div>
+
+  <!-- Notification -->
+  <div id="add-to-cart-notification" class="notification">Item added to cart ✅</div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Foodie Express. All rights reserved.</p>
+  </footer>
+
+  <!-- Hidden Print Area -->
+  <div id="print-area" style="display: none;"></div>
+
+  <script src="Assets/cart.js"></script>
+</body>
+</html>
+
