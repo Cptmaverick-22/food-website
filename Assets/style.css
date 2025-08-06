@@ -312,34 +312,48 @@ footer {
 }
 
 /* Print Styles */
+/* Print Styles */
 @media print {
   body * {
-    display: none !important;
+    visibility: hidden !important;
   }
-  #print-area, #print-area * {
-    display: block !important;
+
+  #print-area,
+  #print-area * {
+    visibility: visible !important;
   }
+
   #print-area {
     position: absolute;
     top: 0;
     left: 0;
     padding: 20px;
     width: 100%;
+    background-color: white;
     font-family: Arial, sans-serif;
     font-size: 16px;
     line-height: 1.5;
     color: #000;
+    z-index: 9999;
   }
+
+  #print-area h1,
+  #print-area h2,
+  #print-area h3,
+  #print-area p,
+  #print-area li {
+    margin-bottom: 10px;
+  }
+
   #print-area ul {
-    list-style-type: disc;
-    margin-left: 20px;
+    list-style: none;
     padding-left: 0;
   }
+
   #print-area li {
-    margin-bottom: 8px;
-  }
-  #print-area h2, #print-area h3, #print-area p {
-    margin-bottom: 12px;
+    border-bottom: 1px solid #ccc;
+    padding: 6px 0;
   }
 }
+
 

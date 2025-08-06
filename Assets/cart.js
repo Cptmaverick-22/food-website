@@ -86,7 +86,6 @@ function printCart() {
     return;
   }
 
-  // Get current date and time
   const now = new Date();
   const dateTimeString = now.toLocaleString("en-IN", {
     timeZone: "Asia/Kolkata",
@@ -94,22 +93,17 @@ function printCart() {
     timeStyle: "short"
   });
 
-  let printContent = `
-    <div id="print-cart-content" style="font-family: Arial, sans-serif;">
+  const printContent = `
+    <div style="font-family: Arial, sans-serif; padding: 20px;">
       <div style="text-align: center; margin-bottom: 20px;">
         <h1 style="margin: 0;">Foodie Express</h1>
         <p style="margin: 5px 0 0;">${dateTimeString}</p>
       </div>
-      
+
       <h2>Your Order</h2>
       <ul style="list-style: none; padding: 0;">
-  `;
-
-  cart.forEach(({ item, price, quantity }) => {
-    printContent += `<li>${item} - Qty: ${quantity} - ₹${price * quantity}</li>`;
-  });
-
-  printContent += `
+        ${cart.map(({ item, price, quantity }) => 
+          `<li>${item} - Qty: ${quantity} - ₹${price * quantity}</li>`).join("")}
       </ul>
       <h3>Total: ₹${total}</h3>
       <p>Contact Phone: <strong>7003064719</strong></p>
@@ -117,19 +111,25 @@ function printCart() {
   `;
 
   const printArea = document.getElementById("print-area");
+  if (!printArea) {
+    alert("Missing print-area div in your HTML.");
+    return;
+  }
+
+  // Inject content and force rendering
   printArea.innerHTML = printContent;
   printArea.style.display = "block";
 
-  // Delay print for rendering on mobile
+  // Wait a short time to ensure DOM updates before printing
   setTimeout(() => {
     window.print();
 
-    // Clean up after printing
+    // Cleanup after printing
     setTimeout(() => {
-      printArea.style.display = "none";
       printArea.innerHTML = "";
+      printArea.style.display = "none";
     }, 500);
-  }, 300);
+  }, 300); // This delay ensures it works on mobile too
 }
 
 
