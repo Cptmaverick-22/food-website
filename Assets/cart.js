@@ -94,42 +94,54 @@ function printCart() {
   });
 
   const printContent = `
-    <div style="font-family: Arial, sans-serif; padding: 20px;">
-      <div style="text-align: center; margin-bottom: 20px;">
-        <h1 style="margin: 0;">Foodie Express</h1>
-        <p style="margin: 5px 0 0;">${dateTimeString}</p>
-      </div>
-
-      <h2>Your Order</h2>
-      <ul style="list-style: none; padding: 0;">
-        ${cart.map(({ item, price, quantity }) => 
-          `<li>${item} - Qty: ${quantity} - ₹${price * quantity}</li>`).join("")}
-      </ul>
-      <h3>Total: ₹${total}</h3>
-      <p>Contact Phone: <strong>7003064719</strong></p>
-    </div>
+    <html>
+      <head>
+        <title>Print - Foodie Express</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            color: #000;
+          }
+          h1, h2, h3, p, li {
+            margin-bottom: 10px;
+          }
+          ul {
+            list-style: none;
+            padding-left: 0;
+          }
+          li {
+            border-bottom: 1px solid #ccc;
+            padding: 6px 0;
+          }
+        </style>
+      </head>
+      <body>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h1 style="margin: 0;">Foodie Express</h1>
+          <p style="margin: 5px 0 0;">${dateTimeString}</p>
+        </div>
+        <h2>Your Order</h2>
+        <ul>
+          ${cart.map(({ item, price, quantity }) =>
+            `<li>${item} - Qty: ${quantity} - ₹${price * quantity}</li>`
+          ).join("")}
+        </ul>
+        <h3>Total: ₹${total}</h3>
+        <p>Contact Phone: <strong>7003064719</strong></p>
+        <script>
+          window.onload = function() {
+            setTimeout(() => window.print(), 300);
+          }
+        </script>
+      </body>
+    </html>
   `;
 
-  const printArea = document.getElementById("print-area");
-  if (!printArea) {
-    alert("Missing print-area div in your HTML.");
-    return;
-  }
-
-  // Inject content and force rendering
-  printArea.innerHTML = printContent;
-  printArea.style.display = "block";
-
-  // Wait a short time to ensure DOM updates before printing
-  setTimeout(() => {
-    window.print();
-
-    // Cleanup after printing
-    setTimeout(() => {
-      printArea.innerHTML = "";
-      printArea.style.display = "none";
-    }, 500);
-  }, 300); // This delay ensures it works on mobile too
+  const printWindow = window.open('', '_blank');
+  printWindow.document.open();
+  printWindow.document.write(printContent);
+  printWindow.document.close();
 }
 
 
