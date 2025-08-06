@@ -94,13 +94,17 @@ function printCart() {
     timeStyle: "short"
   });
 
+  // Save the original HTML
+  const originalContent = document.body.innerHTML;
+
+  // Build the print HTML
   let printContent = `
-    <div id="print-cart-content" style="font-family: Arial, sans-serif;">
+    <div style="font-family: Arial, sans-serif; padding: 20px;">
       <div style="text-align: center; margin-bottom: 20px;">
         <h1 style="margin: 0;">Foodie Express</h1>
         <p style="margin: 5px 0 0;">${dateTimeString}</p>
       </div>
-      
+
       <h2>Your Order</h2>
       <ul style="list-style: none; padding: 0;">
   `;
@@ -116,21 +120,21 @@ function printCart() {
     </div>
   `;
 
-  const printArea = document.getElementById("print-area");
-  printArea.innerHTML = printContent;
-  printArea.style.display = "block";
+  // Replace body with print content
+  document.body.innerHTML = printContent;
 
-  // Delay print for rendering on mobile
+  // Wait for rendering to complete before printing
   setTimeout(() => {
     window.print();
 
-    // Clean up after printing
+    // Restore original content after printing
     setTimeout(() => {
-      printArea.style.display = "none";
-      printArea.innerHTML = "";
+      document.body.innerHTML = originalContent;
+      location.reload(); // reload the page to restore JS functionality
     }, 500);
   }, 300);
 }
+
 
 
 
